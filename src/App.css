@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
+}
+body {
+  font: 400 14px -apple-system, Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #f0f0f0;
+}
+
+input, button, textarea {
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: 18px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.navbar-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 20;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.navbar-header ~ .container, .navbar-header ~ .row {
+  margin-top: 50px;
+}
+
+.navbar-container .brand-name{
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+.navbar-container .brand-logo{
+  display: flex;
+  align-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.navbar-container .brand-logo img {
+  height: 50px;
+}
+
+@media (max-width:468px) {
+  .navbar-container .brand-logo img {
+    height: 30px;
+  }
+}
+
+.default-link{
+  align-items: center;
+  color: #e64f32;
+  font-size: 18px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.default-link:hover {
+  opacity: 0.8;
+}

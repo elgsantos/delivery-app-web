@@ -1,0 +1,15 @@
+.register-container {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.subtitle{
+  letter-spacing: 5px;
+}
+.date-picker-delivery{
+  cursor: pointer;
+}

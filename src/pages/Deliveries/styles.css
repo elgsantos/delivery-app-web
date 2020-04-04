@@ -1,0 +1,17 @@
+.delivery-table tbody tr{
+  cursor: pointer;
+}
+
+.delivery-table {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.delivery-table tbody tr:hover{
+  background-color: #ddd;
+  color: black;
+}
+
+.delivery-table tbody a{
+  color: inherit;
+}
