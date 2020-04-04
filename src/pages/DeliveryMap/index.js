@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-materialize';
 import Header from '../../components/Header';
 import MapComponent from '../../components/MapComponent';
 
 export default function DeliveryMap() {
+  const delivery = JSON.parse(localStorage.getItem('delivery'));
+  useEffect(() => {
+
+  }, [delivery]);
   return (
     <div>
       <Header>
@@ -28,10 +32,12 @@ export default function DeliveryMap() {
             </Button>
         </Link>
       </Header>
-      <MapComponent
-        from={{ lat: -22.8873196, lng: -43.1265972 }}
-        to={{ lat: -22.9330791, lng: -43.0990986 }}
-      />
+      {delivery ? (
+        <MapComponent
+          from={delivery.startAddress}
+          to={delivery.destinationAddress}
+        />
+      ) : <h4 className="center" style={{ marginTop: '60px' }}>Entrega não selecionada na lista</h4>}
     </div>
   );
 }
