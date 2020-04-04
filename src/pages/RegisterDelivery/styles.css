@@ -10,6 +10,6 @@
 .subtitle{
   letter-spacing: 5px;
 }
-.date-picker-delivery{
+#deliveryDate{
   cursor: pointer;
 }

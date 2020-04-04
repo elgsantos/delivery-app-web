@@ -1,21 +1,74 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Card, DatePicker, Button, TextInput } from 'react-materialize';
+import moment from 'moment';
 
+import api from '../../services/api';
 import './styles.css';
 
 import Header from '../../components/Header';
 
 import truckLogo from '../../assets/truck-logo.png';
-
+const dateFormat = 'DD/MM/YYYY';
 export default function RegisterDelivery() {
+  const [customer, setCustomer] = useState('');
+  const [deliveryDate, setDeliveryDate] = useState('');
+  const [startAddress, setStartAddress] = useState('');
+  const [destinationAddress, setDestinationAddress] = useState('');
+  const [errors, setErrors] = useState({});
+  async function handleRegister(e) {
+    e.preventDefault();
+
+    const data = {
+      customer,
+      deliveryDate,
+      startAddress,
+      destinationAddress
+    }
+
+    try {
+      await api.post('deliveries', data)
+        .then(response => {
+          alert('Entrega cadastrada com sucesso!');
+          setCustomer('');
+          setDeliveryDate('');
+          setStartAddress('');
+          setDestinationAddress('');
+        })
+        .catch(error => {
+          if (error.response.status === 400) {
+            alert(`Existem campos não preenchidos corretamente`);
+            //setErrors({ ...res.error.response.fields })
+            let fieldErrors = {}
+            error.response.data.fields.forEach(element => {
+              fieldErrors[element] = true
+            });
+            setErrors(fieldErrors);
+          } else {
+            throw new Error();
+          }
+        });
+    } catch (error) {
+      console.log(error);
+      alert('Ocorreu um erro no cadastro, tente novamente.');
+    }
+  }
+  function handleDateChange(target) {
+    setDeliveryDate(
+      moment(target.value).format(dateFormat)
+    )
+    let fieldErrors = errors;
+    fieldErrors[target.id] = '';
+    setErrors(fieldErrors);
+  }
+
   return (
     <div>
       <Header>
         <Link className="left" to="/entregas">
           <Button
             node="button"
-            waves="dark"
+            waves="teal"
             className="right white teal-text"
           >
             Lista de Entregas
@@ -35,36 +88,58 @@ export default function RegisterDelivery() {
         <Row>
           <Col s={12} l={10} offset={'l1'}>
             <Card title="Cadastrar nova entrega" className="center grey-text text-darken-2">
-              <form>
+              <form onSubmit={handleRegister}>
                 <Row>
                   <Col s={12} m={9}>
                     <TextInput
+                      className={errors.customer && 'validate invalid'}
                       id="customer"
                       label="Nome do cliente"
                       s={12}
+                      value={customer}
+                      validate
+                      error="Nome inválido"
+                      onChange={e => setCustomer(e.target.value)}
+                      minLength={3}
                     />
                   </Col>
                   <Col s={12} m={3}>
                     <DatePicker
+                      className={errors.deliveryDate && 'invalid'}
                       id="deliveryDate"
-                      className="date-picker-delivery"
                       options={datePickerOptions}
                       label="Data de entrega"
+                      error="Data Inválida"
                       s={12}
+                      value={deliveryDate}
+                      onChange={newDeliveryDate => handleDateChange({
+                        id: "deliveryDate",
+                        value: newDeliveryDate
+                      })}
                     />
                   </Col>
                   <Col s={12}>
                     <TextInput
+                      className={errors.startAddress && 'invalid'}
                       id="startAddress"
                       label="Endereço de partida"
+                      error="Endereço inválido"
                       s={12}
+                      value={startAddress}
+                      onChange={e => setStartAddress(e.target.value)}
+                      minLength={5}
                     />
                   </Col>
                   <Col s={12}>
                     <TextInput
+                      className={errors.destinationAddress && 'invalid'}
                       id="destinationAddress"
                       label="Endereço de destino"
+                      error="Endereço inválido"
                       s={12}
+                      value={destinationAddress}
+                      onChange={e => setDestinationAddress(e.target.value)}
+                      minLength={5}
                     />
                   </Col>
                 </Row>
@@ -74,7 +149,7 @@ export default function RegisterDelivery() {
                       <Link className="default-link left" to="/entregas">
                         <Button
                           node="button"
-                          waves="dark"
+                          waves="light"
                           className="left white deep-orange-text"
                         >
                           Lista de entregas
