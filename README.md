@@ -14,7 +14,7 @@ A web app for creating and listing deliveries, that calculates delivery routes a
 
 ## API
 
-This app uses [delivery-api](https://github.com/elgsantos/delivery-api)
+This app uses [delivery-api](https://github.com/elgsantos/delivery-api).
 
 ## Getting Started
 
